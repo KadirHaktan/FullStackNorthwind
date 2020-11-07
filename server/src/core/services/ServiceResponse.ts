@@ -1,10 +1,11 @@
-import IEntity from "../entities/IEntity";
+
 
 import {JsonProperty,Serializable} from "typescript-json-serializer"
 import GeneralServiceResponse from "./GeneralServiceResponse";
+import BaseModel from "../models/BaseModel";
 
 @Serializable()
-export default class ServiceResponse<T extends IEntity> extends GeneralServiceResponse{
+export default class ServiceResponse<T extends BaseModel> extends GeneralServiceResponse{
 
     list:T[]|null
 
