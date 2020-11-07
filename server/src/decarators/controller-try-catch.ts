@@ -1,12 +1,9 @@
 
-export  function controllerTryCatch(){
-return function (_target:any,_key:string,descriptor:PropertyDescriptor){
+export  const controllerTryCatch=():any=>(_target:any,_propertyName:string,descriptor:PropertyDescriptor)=>{
     const fn=descriptor.value
     descriptor.value=async function(...args:any[]){
         try{
-            const result=await fn.apply(this,...args)
-            console.log(result)
-            return result
+            return await fn.apply(this,args)        
         }
         catch(error){
             const [,res,_next]=args
@@ -14,4 +11,3 @@ return function (_target:any,_key:string,descriptor:PropertyDescriptor){
         }
     }
   }
-}
