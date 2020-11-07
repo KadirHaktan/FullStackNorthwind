@@ -12,6 +12,8 @@ import {Container} from "inversify"
 import {binding} from "./config/di.config"
 import { buildProviderModule } from "inversify-binding-decorators"
 
+import {handleError} from "./middlewares/error"
+
 
 export class Server{
 
@@ -27,6 +29,8 @@ export class Server{
 
                 app.use(bodyparser.json())
                 app.use(bodyparser.urlencoded({extended:false}))
+
+                app.use(handleError)
             })
 
             this.app=this.server.build()
