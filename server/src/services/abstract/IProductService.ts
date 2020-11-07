@@ -1,6 +1,8 @@
+import { BaseProductModel } from "../../models/abstract/BaseProductModel";
 import IService from "../../core/services/IService";
-import IProduct from "../../entities/abstract/IProduct";
 
-export default interface IProductService<T extends IProduct> extends IService<T>{
+
+
+export default interface IProductService<T extends BaseProductModel> extends IService<T>{
 
 }
