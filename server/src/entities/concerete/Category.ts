@@ -4,15 +4,15 @@ import ICategory from "../abstract/ICategory";
 
 import {Entity,PrimaryKey,Property}from '@mikro-orm/core'
 
-@Entity({tableName:"Categories"})
+@Entity({tableName:"categories"})
 export default class Category implements ICategory{
 
-    @PrimaryKey()
+    @PrimaryKey({name:"categoryid"})
     CategoryID: number;
 
-    @Property()
+    @Property({name:"categoryname"})
     CategoryName: string;
 
-    @Property()
+    @Property({name:"description"})
     Description: string;   
 }
