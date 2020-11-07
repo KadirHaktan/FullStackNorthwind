@@ -2,18 +2,19 @@
 import {NextFunction, Request,Response} from "express"
 import { inject } from "inversify";
 import { controller, httpDelete, httpGet, httpPost,httpPut,interfaces,next,request,response} from "inversify-express-utils";
-import {Product} from "../entities/concerete/Product";
+
 import IProductService from "../services/abstract/IProductService";
 import { TYPES } from "../types/index";
 import {controllerTryCatch} from "../decarators/controller-try-catch"
+import { ProductModel } from "src/models/concerete/productModels/ProductModel";
 
 
 @controller("/product")
 export default class ProductController implements interfaces.Controller{
 
-    _service:IProductService<Product>
+    _service:IProductService<ProductModel>
 
-    constructor(@inject(TYPES.IProductService)service:IProductService<Product>){
+    constructor(@inject(TYPES.IProductService)service:IProductService<ProductModel>){
         this._service=service
     }
 
