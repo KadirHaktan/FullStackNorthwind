@@ -18,6 +18,7 @@ import ProductService from "../services/concerete/ProductService"
 
 import "../controller/ProductController"
 import { Product } from "../entities/concerete/Product"
+import { ProductModel } from "src/models/concerete/productModels/ProductModel"
 
 const bindToRepository=<T extends IEntity,U>(
     bind:interfaces.Bind,
@@ -44,7 +45,7 @@ export  const binding=new AsyncContainerModule(async(bind)=>{
 
         bindToRepository(bind,TYPES.ProductRepository,connection,Product)
 
-        bind<IProductService<Product>>(TYPES.IProductService)
+        bind<IProductService<ProductModel>>(TYPES.IProductService)
         .to(ProductService)
         .inTransientScope()
     }
