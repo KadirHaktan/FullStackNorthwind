@@ -11,7 +11,7 @@ export class RedisCacheManager implements ICacheManager{
         let newVal;
         if(value===null){
              newVal=storeFunction
-             await this.Add(key,JSON.stringify(newVal),60)
+             await this.Add(key,JSON.stringify(newVal),3600)
         }
         else{
             newVal=value
