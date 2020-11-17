@@ -5,5 +5,6 @@ export enum TYPES_ENUM{
     ProductRepository="ProductRepository",
     CategoryRepository="CategoryRepository",
     IProductService="IProductService",
-    ICategoryService="ICategoryService"
+    ICategoryService="ICategoryService",
+    CacheManager="CacheManager"
 }
