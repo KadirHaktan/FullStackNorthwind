@@ -7,6 +7,8 @@ import {TYPES} from "../types/index"
 
 import {DatabaseClient} from "./database"
 
+import client from "./redis.config"
+
 
 
 import IEntity from "../core/entities/IEntity"
@@ -18,7 +20,9 @@ import ProductService from "../services/concerete/ProductService"
 
 import "../controller/ProductController"
 import { Product } from "../entities/concerete/Product"
-import { ProductModel } from "src/models/concerete/productModels/ProductModel"
+import { ProductModel } from "../models/concerete/productModels/ProductModel"
+import { ICacheManager } from "../core/caching/ICacheManager"
+import { RedisCacheManager } from "../caching/redis/RedisCacheManager"
 
 const bindToRepository=<T extends IEntity,U>(
     bind:interfaces.Bind,
@@ -48,6 +52,10 @@ export  const binding=new AsyncContainerModule(async(bind)=>{
         bind<IProductService<ProductModel>>(TYPES.IProductService)
         .to(ProductService)
         .inTransientScope()
+
+        if(client){
+            bind<ICacheManager>(TYPES.CacheManager).to(RedisCacheManager).inRequestScope()
+        }
     }
 })
 
