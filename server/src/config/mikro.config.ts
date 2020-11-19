@@ -15,5 +15,4 @@ const configDb=async(dbName:string,debug:boolean,entities:EntityClass<IEntity>[]
 }
 
 
-
 export default configDb
