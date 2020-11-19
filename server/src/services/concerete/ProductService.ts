@@ -6,6 +6,7 @@ import { inject, injectable } from "inversify";
 import { TYPES } from "../../types/index";
 import { ProductModel } from "../../models/concerete/productModels/ProductModel";
 import { ICacheManager } from "../../core/caching/ICacheManager";
+import { ProductCategoryModel } from "src/models/concerete/productModels/ProductCategoryModel";
 
 @injectable()
 export default class ProductService implements IProductService<ProductModel> {
@@ -19,33 +20,39 @@ export default class ProductService implements IProductService<ProductModel> {
     this._repository = repository;
     this._cacheManager = cacheManager;
   }
+  GetProductsWithCategoryInfos(): ServiceResponse<ProductCategoryModel> {
+     throw new Error("Method not implemented.");
+  }
+  GetProductWithCategoryInfo(_id: number): ServiceResponse<ProductCategoryModel> {
+    throw new Error("Method not implemented.");
+  }
+
   async GetAll(): Promise<ServiceResponse<ProductModel>> {
-    const list: Product[] = await this._repository.findAll();
     let modelList: ProductModel[] = [];
-
     const key = "products";
-    const storeFunction=this.fillProductModel(list, modelList);
+    
 
-    const value=(await this._cacheManager.GetOrSet(key,storeFunction)) as ProductModel[]
-     
+    const value=await this._cacheManager.GetOrSet<ProductModel[]>(key,()=>this.fillProductModel(modelList))
+    const count=value == null ? 0 : value.length;
+
 
     return new ServiceResponse<ProductModel>(
       value,
       null,
       true,
       false,
-      value.length,
+      count,
       null
     );
   }
 
-
   async GetById(ProductID: number): Promise<ServiceResponse<ProductModel>> {
-    const entity = await this._repository.find({ ProductID });
-    const key=ProductID.toString()
-
-    const resultEntity: ProductModel = new ProductModel(entity[0]);
-    const result=await this._cacheManager.GetOrSet(key,resultEntity)
+   
+    const key=`product-${ProductID.toString()}`
+    const result=await this._cacheManager.GetOrSet<ProductModel>(key,async ()=>{
+      const entity = await this._repository.find({ ProductID });
+      return new ProductModel(entity[0])
+    })
 
     return new ServiceResponse<ProductModel>(
       null,
@@ -113,7 +120,9 @@ export default class ProductService implements IProductService<ProductModel> {
   }
 
   //#region private methods
-  private fillProductModel(list: Product[], modelList: ProductModel[]) {
+   private async fillProductModel(modelList: ProductModel[]) {
+
+    const list:Product[]=await this._repository.findAll()
     list.forEach((p) => {
       modelList.push(new ProductModel(p));
     });
