@@ -6,11 +6,11 @@ import client from "../../config/redis.config"
 @injectable()
 export class RedisCacheManager implements ICacheManager{
 
-    async GetOrSet(key: string, storeFunction: any): Promise<any> {
-        const value=await this.Get(key)
+    async GetOrSet<T>(key: string, storeFunction:any): Promise<T|null> {
+        const value=await this.Get(key) as T
         let newVal;
         if(value===null){
-             newVal=storeFunction
+             newVal=await storeFunction()
              await this.Add(key,JSON.stringify(newVal),3600)
         }
         else{
@@ -22,7 +22,7 @@ export class RedisCacheManager implements ICacheManager{
 
    
 
-    async Get(key: string): Promise<any> {
+    async Get<T>(key: string): Promise<T|null> {
         return new Promise(async(resolve,reject)=>{
             return client.get(key,(err,val)=>{
                 if(err){
@@ -32,7 +32,7 @@ export class RedisCacheManager implements ICacheManager{
                     resolve(null)
                 }
                 else{
-                   resolve(JSON.parse(val as string) as any[])
+                   resolve(JSON.parse(val as string) as T)
                 }
             })
         })
