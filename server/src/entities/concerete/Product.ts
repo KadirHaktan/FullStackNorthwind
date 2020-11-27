@@ -1,8 +1,9 @@
 import IProduct from "../abstract/IProduct";
 
-import {Entity, Property,PrimaryKey}from '@mikro-orm/core'
+import {Entity, Property,PrimaryKey, ManyToOne}from '@mikro-orm/core'
+import Category from "./Category";
 
-@Entity({tableName:"products",})
+@Entity({tableName:"products"})
 export class Product implements IProduct{
 
     @PrimaryKey({name:"productid"})
@@ -29,5 +30,9 @@ export class Product implements IProduct{
 
     @Property({name:"unitsinstock"})
     UnitsInStock: number;
+
+
+    @ManyToOne()
+    category?:Category
     
 }

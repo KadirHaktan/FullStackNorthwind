@@ -2,7 +2,8 @@
 
 import ICategory from "../abstract/ICategory";
 
-import {Entity,PrimaryKey,Property}from '@mikro-orm/core'
+import {Collection, Entity,OneToMany,PrimaryKey,Property}from '@mikro-orm/core'
+import { Product } from "./Product";
 
 
 @Entity({tableName:"categories"})
@@ -15,6 +16,15 @@ export default class Category implements ICategory{
     CategoryName: string;
 
     @Property({name:"description"})
-    Description: string;   
+    Description: string; 
+    
+    @OneToMany(()=>Product,product=>product.category)
+    products?=new Collection<Product>(this)
+
+    // constructor(CategoryID:number,CategoryName:string,Description:string){
+    //     this.CategoryID=CategoryID
+    //     this.CategoryName=CategoryName,
+    //     this.Description=Description
+    // }
 
 }
