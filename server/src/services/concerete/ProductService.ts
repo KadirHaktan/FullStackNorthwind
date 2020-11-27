@@ -1,12 +1,11 @@
 import { Product } from "../../entities/concerete/Product";
 import IProductService from "../abstract/IProductService";
 import ServiceResponse from "../../core/services/ServiceResponse";
-import { EntityRepository } from "@mikro-orm/core";
+import { EntityRepository } from "@mikro-orm/mysql";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../types/index";
 import { ProductModel } from "../../models/concerete/productModels/ProductModel";
 import { ICacheManager } from "../../core/caching/ICacheManager";
-import { ProductCategoryModel } from "src/models/concerete/productModels/ProductCategoryModel";
 
 @injectable()
 export default class ProductService implements IProductService<ProductModel> {
@@ -20,13 +19,6 @@ export default class ProductService implements IProductService<ProductModel> {
     this._repository = repository;
     this._cacheManager = cacheManager;
   }
-  GetProductsWithCategoryInfos(): ServiceResponse<ProductCategoryModel> {
-     throw new Error("Method not implemented.");
-  }
-  GetProductWithCategoryInfo(_id: number): ServiceResponse<ProductCategoryModel> {
-    throw new Error("Method not implemented.");
-  }
-
   async GetAll(): Promise<ServiceResponse<ProductModel>> {
     let modelList: ProductModel[] = [];
     const key = "products";
@@ -53,7 +45,7 @@ export default class ProductService implements IProductService<ProductModel> {
       const entity = await this._repository.find({ ProductID });
       return new ProductModel(entity[0])
     })
-
+    
     return new ServiceResponse<ProductModel>(
       null,
       result,
