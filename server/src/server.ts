@@ -5,6 +5,8 @@ import bodyparser from "body-parser"
 import  cors from "cors"
 import chalk from "chalk"
 
+
+
 import { Application } from "express"
 
 import {InversifyExpressServer} from "inversify-express-utils"
@@ -29,7 +31,6 @@ export class Server{
 
                 app.use(bodyparser.json())
                 app.use(bodyparser.urlencoded({extended:false}))
-
                 app.use(handleError)
             })
 
