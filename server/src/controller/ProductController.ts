@@ -9,7 +9,7 @@ import {controllerTryCatch} from "../decarators/controller-try-catch"
 import { ProductModel } from "src/models/concerete/productModels/ProductModel";
 
 
-@controller("/product")
+@controller("/products")
 export default class ProductController implements interfaces.Controller{
 
     _service:IProductService<ProductModel>
@@ -55,4 +55,5 @@ export default class ProductController implements interfaces.Controller{
         const result=await this._service.Delete(parseInt(req.params.id))
         res.json(result)
     }
+
 }
