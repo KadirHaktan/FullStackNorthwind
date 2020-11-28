@@ -6,6 +6,7 @@ import { inject, injectable } from "inversify";
 import { TYPES } from "../../types/index";
 import { ProductModel } from "../../models/concerete/productModels/ProductModel";
 import { ICacheManager } from "../../core/caching/ICacheManager";
+import NotFoundError from "../../core/customs/errors/NotFoundError";
 
 @injectable()
 export default class ProductService implements IProductService<ProductModel> {
@@ -42,8 +43,8 @@ export default class ProductService implements IProductService<ProductModel> {
    
     const key=`product-${ProductID.toString()}`
     const result=await this._cacheManager.GetOrSet<ProductModel>(key,async ()=>{
-      const entity = await this._repository.find({ ProductID });
-      return new ProductModel(entity[0])
+       const entity=await this._repository.find({ ProductID })
+       return this.IfEntityIsNotNull(entity[0])
     })
     
     return new ServiceResponse<ProductModel>(
@@ -120,6 +121,14 @@ export default class ProductService implements IProductService<ProductModel> {
     });
 
     return modelList
+  }
+
+  private IfEntityIsNotNull(entity:Product):ProductModel{
+    if(!entity){
+      throw new NotFoundError("Product can not found")
+    }else{
+      return new ProductModel(entity)
+    }
   }
 
   //#endregion

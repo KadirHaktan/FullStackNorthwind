@@ -7,6 +7,7 @@ import ServiceResponse from "../../core/services/ServiceResponse";
 import CategoryModel from "../../models/concerete/categoryModels/CategoryModel";
 import { CategoryProductsModel } from "../../models/concerete/categoryModels/CategoryProductsModel";
 import ICategoryService from "../abstract/ICategoryService";
+import NotFoundError from "../../core/customs/errors/NotFoundError";
 
 @injectable()
 export default class CategoryService
@@ -44,10 +45,10 @@ export default class CategoryService
     );
   }
   async GetById(id: number): Promise<ServiceResponse<CategoryModel>> {
-    const key=`product-${id.toString()}`
+    const key=`category-${id.toString()}`
     const result=await this._cacheManager.GetOrSet<CategoryModel>(key,async ()=>{
       const entity = await this._repository.find({CategoryID:id});
-      return new CategoryModel(entity[0])
+      return this.IfEntityIsNotNull(entity[0])
     })
     
     return new ServiceResponse<CategoryModel>(
@@ -110,6 +111,14 @@ export default class CategoryService
     });
 
     return modelList;
+  }
+
+  private IfEntityIsNotNull(entity:Category):CategoryModel{
+    if(!entity){
+      throw new NotFoundError("Category can not found")
+    }else{
+      return new CategoryModel(entity)
+    }
   }
   //#endregion
 }
