@@ -8,6 +8,7 @@ import CategoryModel from "../../models/concerete/categoryModels/CategoryModel";
 import { CategoryProductsModel } from "../../models/concerete/categoryModels/CategoryProductsModel";
 import ICategoryService from "../abstract/ICategoryService";
 import NotFoundError from "../../core/customs/errors/NotFoundError";
+import { errorMessages } from "../../core/constables/messages/error-messages";
 
 @injectable()
 export default class CategoryService
@@ -115,7 +116,7 @@ export default class CategoryService
 
   private IfEntityIsNotNull(entity:Category):CategoryModel{
     if(!entity){
-      throw new NotFoundError("Category can not found")
+      throw new NotFoundError(errorMessages.notFound.Category)
     }else{
       return new CategoryModel(entity)
     }

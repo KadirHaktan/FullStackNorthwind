@@ -7,6 +7,7 @@ import { TYPES } from "../../types/index";
 import { ProductModel } from "../../models/concerete/productModels/ProductModel";
 import { ICacheManager } from "../../core/caching/ICacheManager";
 import NotFoundError from "../../core/customs/errors/NotFoundError";
+import { errorMessages } from "../../core/constables/messages/error-messages";
 
 @injectable()
 export default class ProductService implements IProductService<ProductModel> {
@@ -125,7 +126,7 @@ export default class ProductService implements IProductService<ProductModel> {
 
   private IfEntityIsNotNull(entity:Product):ProductModel{
     if(!entity){
-      throw new NotFoundError("Product can not found")
+      throw new NotFoundError(errorMessages.notFound.Product)
     }else{
       return new ProductModel(entity)
     }
