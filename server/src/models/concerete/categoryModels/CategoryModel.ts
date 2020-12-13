@@ -1,6 +1,7 @@
 import Category from "../../../entities/concerete/Category";
 import { BaseCategoryModel } from "../../../models/abstract/BaseCategoryModel";
 import { Serializable } from "typescript-json-serializer";
+import { IsEmpty, Length } from "class-validator";
 
 
 
@@ -8,10 +9,14 @@ import { Serializable } from "typescript-json-serializer";
 export default class CategoryModel implements BaseCategoryModel{
 
 
+    @IsEmpty()
     id: number;
 
+    @IsEmpty()
     name: string;
     
+    @IsEmpty()
+    @Length(3,70)
     description:string;
 
     constructor(category:Category){
