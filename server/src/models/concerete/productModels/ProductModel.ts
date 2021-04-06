@@ -1,12 +1,12 @@
-import { Product } from "../../../entities/concerete/Product";
+import  {Product} from "../../../entities/concerete/Product";
 import { Serializable } from "typescript-json-serializer";
 import { BaseProductModel } from "../../abstract/BaseProductModel";
 
 import {IsEmpty, Length, Min} from "class-validator"
-import { errorMessages } from "src/core/constables/messages/error-messages";
+import { errorMessages } from "../../../core/constables/messages/error-messages";
 
 
-const {StringTypeValidation:{Empty,Lenght},NumberTypeValidation:{NumberEmpty,MinimumNumber}}=errorMessages.validation
+const {StringTypeValidation:{Empty,Lenght},NumberTypeValidation:{MinimumNumber}}=errorMessages.validation
 @Serializable()
 
 export class ProductModel implements BaseProductModel{

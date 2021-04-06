@@ -7,7 +7,6 @@ import IProductService from "../services/abstract/IProductService";
 import { TYPES } from "../types/index";
 import { ProductModel } from "src/models/concerete/productModels/ProductModel";
 
-
 @controller("/products")
 export default class ProductController implements interfaces.Controller{
 
@@ -16,6 +15,7 @@ export default class ProductController implements interfaces.Controller{
     constructor(@inject(TYPES.IProductService)service:IProductService<ProductModel>){
         this._service=service
     }
+    
 
    
     @httpGet("/")

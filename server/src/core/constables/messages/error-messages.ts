@@ -3,7 +3,8 @@
 export const errorMessages={
     notFound:{
         Product:createNotFoundMessage("Product"),
-        Category:createNotFoundMessage("Category")
+        Category:createNotFoundMessage("Category"),
+        User:createNotFoundMessage("User")
     },
     validation:{
         StringTypeValidation:{

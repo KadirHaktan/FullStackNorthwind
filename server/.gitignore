@@ -122,3 +122,7 @@ dist
 
 dist/
 .dist*
+
+.env
+.env*
+/src/.env

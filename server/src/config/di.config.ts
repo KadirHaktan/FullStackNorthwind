@@ -28,6 +28,10 @@ import ICategoryService from "../services/abstract/ICategoryService"
 import CategoryModel from "../models/concerete/categoryModels/CategoryModel"
 import CategoryService from "../services/concerete/CategoryService"
 import Category from "../entities/concerete/Category"
+import { BaseEncryptionFactory } from "../core/encryption/encryption-factory"
+import { BcryptEncryptionFactory } from "../encryption/factories/bcrypt-encryption-factory"
+import { User } from "src/entities/concerete/User"
+
 
 const bindToRepository=<T extends IEntity,U>(
     bind:interfaces.Bind,
@@ -54,6 +58,7 @@ export  const binding=new AsyncContainerModule(async(bind)=>{
 
         bindToRepository(bind,TYPES.ProductRepository,connection,Product)
         bindToRepository(bind,TYPES.CategoryRepository,connection,Category)
+        bindToRepository(bind,TYPES.UserRepository,connection,User)
 
         bind<IProductService<ProductModel>>(TYPES.IProductService)
         .to(ProductService)
@@ -62,6 +67,11 @@ export  const binding=new AsyncContainerModule(async(bind)=>{
         bind<ICategoryService<CategoryModel>>(TYPES.ICategoryService)
         .to(CategoryService)
         .inTransientScope()
+
+
+        bind<BaseEncryptionFactory>(TYPES.EncryptionFactory)
+        .to(BcryptEncryptionFactory)
+        .inSingletonScope()
     }
 
     

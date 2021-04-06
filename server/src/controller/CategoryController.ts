@@ -47,10 +47,4 @@ export default class CategoryController implements interfaces.Controller{
         res.json(result)
     }
 
-    @httpGet("/test/:id")
-    async getTest(@request()req:Request,@response()res:Response,@next()_next:NextFunction){
-        const id=parseInt(req.params.id)
-        const result=await this._service.GetCategoryWithProducts(id)
-        res.json(result)
-    }
 }

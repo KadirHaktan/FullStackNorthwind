@@ -1,7 +1,7 @@
 import { Product } from "../../entities/concerete/Product";
 import IProductService from "../abstract/IProductService";
 import ServiceResponse from "../../core/services/ServiceResponse";
-import { EntityRepository } from "@mikro-orm/mysql";
+import { EntityRepository } from "@mikro-orm/core";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../types/index";
 import { ProductModel } from "../../models/concerete/productModels/ProductModel";

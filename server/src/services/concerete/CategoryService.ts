@@ -1,18 +1,16 @@
-import { EntityRepository } from "@mikro-orm/mysql";
+import { EntityRepository } from "@mikro-orm/core";
 import { inject, injectable } from "inversify";
 import { ICacheManager } from "src/core/caching/ICacheManager";
 import Category from "../../entities/concerete/Category";
 import { TYPES } from "../../types";
 import ServiceResponse from "../../core/services/ServiceResponse";
 import CategoryModel from "../../models/concerete/categoryModels/CategoryModel";
-import { CategoryProductsModel } from "../../models/concerete/categoryModels/CategoryProductsModel";
 import ICategoryService from "../abstract/ICategoryService";
 import NotFoundError from "../../core/customs/errors/NotFoundError";
 import { errorMessages } from "../../core/constables/messages/error-messages";
 
 @injectable()
-export default class CategoryService
-  implements ICategoryService<CategoryModel> {
+export default class CategoryService implements ICategoryService<CategoryModel> {
   _repository: EntityRepository<Category>;
   _cacheManager: ICacheManager;
 
@@ -21,13 +19,6 @@ export default class CategoryService
     @inject(TYPES.CacheManager) cacheManager: ICacheManager) {
     this._repository = repository;
     this._cacheManager = cacheManager;
-  }
-
-  GetCategoryWithProductInfos(): Promise<ServiceResponse<CategoryProductsModel>> {
-    throw new Error("Method not implemented.");
-  }
-  GetCategoryWithProducts(_id: number): Promise<ServiceResponse<CategoryProductsModel>> {
-    throw new Error("Method not implemented.");
   }
   async GetAll(): Promise<ServiceResponse<CategoryModel>> {
     let modelList: CategoryModel[] = [];

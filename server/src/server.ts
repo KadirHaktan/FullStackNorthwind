@@ -30,6 +30,8 @@ export class Server{
                 app.use(cors())
                 app.use(bodyparser.json())
                 app.use(bodyparser.urlencoded({extended:false}))
+
+                
                 
                 
             })
@@ -40,8 +42,8 @@ export class Server{
 
             this.app=this.server.build()
 
-            this.app.listen(3000,():void=>{
-                process.stdout.write(chalk.greenBright("server started on 3000 port"))
+            this.app.listen(4000,():void=>{
+                process.stdout.write(chalk.greenBright("server started on 4000 port"))
             })
         }).catch((error:Error)=>{
             process.stdout.write(chalk.redBright(error))
